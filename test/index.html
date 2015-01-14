@@ -1,0 +1,45 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>esdom tests</title>
+
+<style type="text/css">
+	*{
+		box-sizing: border-box;
+	}
+	#ast{
+		margin: 15px;
+	}
+	#ast *{
+		display: block;
+		border: 2px solid darkgray;
+		background: rgba(120,120,120,.1);
+		padding: 10px;
+		margin-bottom: 5px;
+		font-size: 12px;
+		font-family: sans-serif;
+	}
+	#ast *:after{
+		content: attr(type);
+	}
+</style>
+<div id="ast"></div>
+
+
+<!-- mocha -->
+<link rel="stylesheet" href="../node_modules/mocha/mocha.css" />
+<div id="mocha"></div>
+<script src="../node_modules/mocha/mocha.js"></script>
+<script>
+	mocha.setup('bdd');
+</script>
+
+
+<!-- tests -->
+<script src="../node_modules/require-stub/index.js"></script>
+<script src="index.js"></script>
+
+
+<script>
+	mocha.checkLeaks();
+	mocha.run();
+</script>

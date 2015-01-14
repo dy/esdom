@@ -1,0 +1,48 @@
+{
+  "name": "esdom",
+  "version": "0.0.0",
+  "description": "AST to DOM and DOM to AST conversion",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dfcreative/esdom"
+  },
+  "keywords": [
+    "ast-dom",
+    "es-dom",
+    "dom-ast",
+    "xml-ast",
+    "html-ast",
+    "ast-html",
+    "ast-xml",
+    "DOM",
+    "XML",
+    "HTML",
+    "es",
+    "ecmascript",
+    "esprima",
+    "ast",
+    "estools",
+    "recast"
+  ],
+  "author": "Deema Ywanov <df.creative@gmail.com>",
+  "license": "Unlicensed",
+  "bugs": {
+    "url": "https://github.com/dfcreative/esdom/issues"
+  },
+  "homepage": "https://github.com/dfcreative/esdom",
+  "dependencies": {
+    "ast-types": "^0.6.7",
+    "is-object": "~1.0.1",
+    "is-array": "~1.0.1"
+  },
+  "devDependencies": {
+    "mocha": "^2.1.0",
+    "require-stub": "^2.2.0",
+    "esprima": "^1.2.2",
+    "escodegen": "^1.6.0"
+  }
+}
