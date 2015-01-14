@@ -19,9 +19,17 @@ function domify(ast){
 	var el;
 
 	assert(ast.type, 'Node type should be defined');
+	assert(types.namedTypes[ast.type], 'Bad AST type ' + ast.type);
 
 	//create element
 	el = document.createElement(ast.type);
+	el.classList.add(ast.type);
+
+	//append proper classes
+	var superTypes = types.getSupertypeNames(ast.type);
+	superTypes.forEach(function(type){
+		el.classList.add(type);
+	});
 
 	//take over all attributes
 	types.eachField(ast, function(attr, value){
@@ -65,6 +73,10 @@ function parse(el){
 	var ast;
 
 	//TODO: use builders
+	// var type = el.getAttribute('type');
+	// var builder = types.builders[type[0].toLowerCase() + type.slice(1)];
+
+	// builder();
 
 	return ast;
 }
