@@ -14,11 +14,20 @@ describe('esdom tests', function(){
 		].join('\n');
 
 		var ast = esprima.parse(src);
+		console.log(ast);
 		var el = esdom(ast);
+
+		console.log(el);
 		containerEl.appendChild(el);
 
-		var resrc = escodegen.generate(esdom.parse(el));
+		var reast = esdom.parse(el);
+		console.log(reast)
 
-		assert.equal(src, resrc);
+		assert.deepEqual(ast, reast);
 	});
+
+
+	it('getter on list properties');
+
+	it('getter on node property')
 });

@@ -36,8 +36,11 @@
   "homepage": "https://github.com/dfcreative/esdom",
   "dependencies": {
     "ast-types": "^0.6.7",
-    "is-object": "~1.0.1",
-    "is-array": "~1.0.1"
+    "is-object": "^1.0.1",
+    "is-array": "^1.0.1",
+    "sliced": "^0.0.5",
+    "query-relative": "^2.1.1",
+    "parse-attr": "^1.1.0"
   },
   "devDependencies": {
     "mocha": "^2.1.0",
