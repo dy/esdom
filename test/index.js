@@ -6,11 +6,17 @@ var esdom = require('..');
 
 var containerEl = document.querySelector('#ast');
 
+//list of stringy sources of different libs
+var sources = {
+	jQuery: getFile('./jquery.js'),
+	jQueryMin: getFile('./jquery.min.js')
+};
+
 
 describe('esdom tests', function(){
 	it('simple case', function(){
 		var src = [
-			'var x = 1;'
+			'function x(a, b, c){ 1; 2; 3; return a + b;}'
 		].join('\n');
 
 		var ast = esprima.parse(src);
@@ -18,7 +24,7 @@ describe('esdom tests', function(){
 		var el = esdom.toDOM(ast);
 
 		console.log(el);
-		containerEl.appendChild(el);
+		// containerEl.appendChild(el);
 
 		var reast = esdom.toAST(el);
 		console.log(reast)
@@ -31,7 +37,10 @@ describe('esdom tests', function(){
 	});
 
 	it.skip('jquery min case', function(){
+		var src = sources.jQueryMin;
 
+		var ast = esprima.parse(src);
+		var el = esdom.toDOM(ast);
 	});
 
 	it.skip('underscore case', function(){
@@ -50,3 +59,8 @@ describe('esdom tests', function(){
 
 	});
 });
+
+
+function getFile(path){
+
+}

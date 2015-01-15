@@ -86,8 +86,8 @@ In all other regards it works just the same.
 
 | Method | Description |
 |---|---|
-| `.domify(ast)` | Convert AST to DOM element. |
-| `.parse(element)` | Build AST from DOM element. |
+| `.toDOM(ast)` | Convert AST to DOM element. |
+| `.toAST(element)` | Build AST from DOM element. |
 
 
 [![NPM](https://nodei.co/npm/esdom.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/esdom/)

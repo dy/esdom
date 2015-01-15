@@ -13,6 +13,7 @@ var stringifyAttr = require('parse-attr').stringify;
 
 //TODO: tests, esp. for minified jquery
 //TODO: add validation
+//TODO: use builders instead of manual creation
 
 
 /**
@@ -68,8 +69,7 @@ function toDOM(ast){
 		}
 		//otherwise simply stringify
 		else {
-			if (!value) el.setAttribute(attr, '');
-			else el.setAttribute(attr, stringifyAttr(value));
+			el.setAttribute(attr, stringifyAttr(value));
 		}
 	};
 
@@ -89,11 +89,6 @@ function toAST(el){
 	var ast = {};
 	var type = el.getAttribute('type');
 	var children = slice(el.childNodes);
-
-	//TODO: use builders instead of manual creation
-	// var lType = type[0].toLowerCase() + type.slice(1);
-	// var builder = types.builders[lType];
-	// builder();
 
 	//take over attributes
 	var attributes = el.attributes, name, value, _name;
