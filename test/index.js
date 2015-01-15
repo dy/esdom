@@ -15,19 +15,38 @@ describe('esdom tests', function(){
 
 		var ast = esprima.parse(src);
 		console.log(ast);
-		var el = esdom(ast);
+		var el = esdom.toDOM(ast);
 
 		console.log(el);
 		containerEl.appendChild(el);
 
-		var reast = esdom.parse(el);
+		var reast = esdom.toAST(el);
 		console.log(reast)
 
 		assert.deepEqual(ast, reast);
 	});
 
+	it.skip('jquery case', function(){
 
-	it('getter on list properties');
+	});
 
-	it('getter on node property')
+	it.skip('jquery min case', function(){
+
+	});
+
+	it.skip('underscore case', function(){
+
+	});
+
+	it.skip('lodash min case', function(){
+
+	});
+
+	it.skip('RequireJS case', function(){
+
+	});
+
+	it.skip('es6 case', function(){
+
+	});
 });

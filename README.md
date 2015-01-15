@@ -77,6 +77,11 @@ So for the structure all esquery css selectors work just fine with some exceptio
 In all other regards it works just the same.
 
 
+# Notes
+
+* esquery is significally flawed by inability to select all function params, or all function body statements. It would be natural to select things like `FunctionDeclaration > params > *` or `FunctionDeclaration > [prop=params]`
+
+
 # API
 
 | Method | Description |
