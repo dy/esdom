@@ -39,7 +39,8 @@
     "is-object": "^1.0.1",
     "is-array": "^1.0.1",
     "sliced": "^0.0.5",
-    "parse-attr": "^1.1.0"
+    "parse-attr": "^1.1.0",
+    "dom-lite": "^0.1.7"
   },
   "devDependencies": {
     "mocha": "^2.1.0",
