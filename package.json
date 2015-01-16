@@ -1,6 +1,6 @@
 {
   "name": "esdom",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "AST to DOM and DOM to AST conversion",
   "main": "index.js",
   "scripts": {
