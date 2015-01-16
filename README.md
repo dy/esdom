@@ -1,6 +1,6 @@
 # esdom [![Build Status](https://travis-ci.org/dfcreative/esdom.svg?branch=master)](https://travis-ci.org/dfcreative/esdom) [![Code Climate](https://codeclimate.com/github/dfcreative/esdom/badges/gpa.svg)](https://codeclimate.com/github/dfcreative/esdom) <a href="UNLICENSE"><img src="http://upload.wikimedia.org/wikipedia/commons/6/62/PD-icon.svg" width="20"/></a>
 
-Build up DOM from AST or AST from DOM. Just because it’s far simpler to use DOM to manipulate and traverse nodes, as you used to, instead of tricky AST, even with tools like [esquery](https://github.com/estools/esquery) or [ast-types](https://github.com/benjamin/ast-types). Besides, there are jQuery and a bunch of other DOM-tools. Anycase, esdom is backward-compatible with esquery, so everything is done with it can be painlessly refactored to esquery.
+Build up DOM from AST or AST from DOM. Just because it’s far simpler to use DOM to manipulate and traverse nodes, as you used to, instead of tricky AST, even with tools like [esquery](https://github.com/estools/esquery) or [ast-types](https://github.com/benjamin/ast-types). Besides, there are jQuery and a bunch of other DOM-tools. Anycase, esdom is backward-compatible with esquery, so everything is done can be painlessly refactored to esquery.
 
 Works both in browsers and node.
 
@@ -15,10 +15,10 @@ var escodegen = require('escodegen');
 
 var ast = esprima.parse(code);
 
-var el = esdom.domify(ast);
+var el = esdom.toDOM(ast);
 el.querySelector('Identifier').setAttribute('name', 'x');
+ast = esdom.toAST(el);
 
-ast = esdom.parse(el);
 escodegen.print(ast);
 ```
 
