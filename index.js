@@ -7,9 +7,10 @@ var types = require('ast-types');
 var isObject = require('is-object');
 var isArray = require('is-array');
 var slice = require('sliced');
-var q = require('query-relative');
 var parseAttr = require('parse-attr').typeBased;
 var stringifyAttr = require('parse-attr').stringify;
+var doc = require('dom-lite').document;
+
 
 //TODO: tests, esp. for minified jquery
 //TODO: add validation
@@ -32,13 +33,13 @@ function toDOM(ast){
 	// console.log(types.namedTypes[ast.type])
 
 	//create element
-	el = document.createElement(ast.type);
+	el = doc.createElement(ast.type);
 
 	//append proper classes
-	el.classList.add(ast.type);
+	el.className = ast.type;
 	var superTypes = types.getSupertypeNames(ast.type);
 	superTypes.forEach(function(type){
-		el.classList.add(type);
+		el.className += ' ' + type;
 	});
 
 	//take over all attributes
@@ -57,7 +58,7 @@ function toDOM(ast){
 				});
 
 				//preset selector attribute (fetch items from children)
-				el.setAttribute(attr, 'multiple');
+				el.setAttribute(attr, '[]');
 			}
 			//for objects - just create inner element and set attr reference to it
 			else {
@@ -94,7 +95,19 @@ function toAST(el){
 	var attributes = el.attributes, name, value, _name;
 	for (var i = 0; i < attributes.length; i++){
 		name = attributes[i].name;
-		value = parseAttr(attributes[i].value);
+		//transform value from raw
+		if (name === 'value' && el.getAttribute('raw')) {
+			//FIXME: this might be an unsafe place
+			value = eval(el.getAttribute('raw'));
+		}
+		//don’t parse raws
+		else if (name === 'raw'){
+			value = attributes[i].value;
+		}
+		//just parse
+		else {
+			value = parseAttr(attributes[i].value);
+		}
 
 		if (ignoreAttr[name]) continue;
 
@@ -102,11 +115,11 @@ function toAST(el){
 	}
 
 	//for each kid - place it respectively to parent
-	children.forEach(function(child){
+	children.forEach(function (child) {
 		if (child.nodeType !== 1) return;
 
 		var parentProp = child.getAttribute('prop');
-		if (el.getAttribute(parentProp) === 'multiple') {
+		if (el.getAttribute(parentProp) === '[]') {
 			(isArray(ast[parentProp]) ? ast[parentProp] : (ast[parentProp] = [])).push(toAST(child));
 		}
 		else {

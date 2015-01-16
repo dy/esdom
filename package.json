@@ -39,7 +39,6 @@
     "is-object": "^1.0.1",
     "is-array": "^1.0.1",
     "sliced": "^0.0.5",
-    "query-relative": "^2.1.1",
     "parse-attr": "^1.1.0"
   },
   "devDependencies": {
@@ -47,5 +46,8 @@
     "require-stub": "^2.2.0",
     "esprima": "^1.2.2",
     "escodegen": "^1.6.0"
+  },
+  "browser": {
+    "dom-lite": "./dom"
   }
 }
