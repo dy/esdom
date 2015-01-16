@@ -15,6 +15,10 @@ var doc = require('dom-lite').document;
 //TODO: tests, esp. for minified jquery
 //TODO: add validation
 //TODO: use builders instead of manual creation
+//TODO: register proper web-components with getters on props
+//TODO: acquire on-component toAST method, returning AST subtree
+//TODO: acquire on-component toCode methods, returning source code
+//TODO: mark/analyze scopes
 
 
 /**
@@ -54,23 +58,49 @@ function toDOM(ast){
 				value.forEach(function(item){
 					var subEl = toDOM(item);
 					subEl.setAttribute('prop', attr);
+					// defineAttrGetter(subEl, 'prop');
+
 					el.appendChild(subEl);
 				});
 
 				//preset selector attribute (fetch items from children)
 				el.setAttribute(attr, '[]');
+
+				//add prop list getter
+				//FIXME: move to web-components
+				// Object.defineProperty(el, attr, {
+				// 	get: (function(selector){
+				// 		return function(){
+				// 			return this.parentNode.querySelectorAll(this.type + '>' + selector);
+				// 		};
+				// 	})('[prop=' + value.type + ']')
+				// });
 			}
 			//for objects - just create inner element and set attr reference to it
 			else {
 				var child = toDOM(value);
 				el.appendChild(child);
 				el.setAttribute(attr, value.type);
+				// defineAttrGetter(el, attr);
+
 				child.setAttribute('prop', attr);
+
+				//add inner object getter by the prop
+				//FIXME: move to web-components
+				// Object.defineProperty(el, attr, {
+				// 	get: (function(selector){
+				// 		return function(){
+				// 			//FIXME: enhance this selector (may fail to work)
+				// 			return this.querySelector(selector);
+				// 		};
+				// 	})(value.type)
+				// });
 			}
 		}
 		//otherwise simply stringify
 		else {
 			el.setAttribute(attr, stringifyAttr(value));
+			// defineAttrGetter(el, attr);
 		}
 	};
 
@@ -129,6 +159,17 @@ function toAST(el){
 
 	return ast;
 }
+
+
+/** Define attribute getter on element */
+function defineAttrGetter(el, attr) {
+	Object.defineProperty(el, attr, {
+		get: function(){
+			return this.getAttribute(attr);
+		}
+	});
+}
+
 
 
 /** List of attributes to ignore */
