@@ -1,6 +1,6 @@
 # esdom [![Build Status](https://travis-ci.org/dfcreative/esdom.svg?branch=master)](https://travis-ci.org/dfcreative/esdom) [![Code Climate](https://codeclimate.com/github/dfcreative/esdom/badges/gpa.svg)](https://codeclimate.com/github/dfcreative/esdom) <a href="UNLICENSE"><img src="http://upload.wikimedia.org/wikipedia/commons/6/62/PD-icon.svg" width="20"/></a>
 
-Build up DOM from AST or AST from DOM. Just because it’s far simpler to use DOM to manipulate and traverse nodes, as you used to, instead of tricky AST, even with tools like [esquery](https://github.com/estools/esquery) or [ast-types](https://github.com/benjamin/ast-types). Besides, there are jQuery and a bunch of other DOM-tools.
+Build up DOM from AST or AST from DOM. Just because it’s far simpler to use DOM to manipulate and traverse nodes, as you used to, instead of tricky AST, even with tools like [esquery](https://github.com/estools/esquery) or [ast-types](https://github.com/benjamin/ast-types). Besides, there are jQuery and a bunch of other DOM-tools. Anycase, esdom is backward-compatible with esquery, so everything is done with it can be painlessly refactored to esquery.
 
 Works both in browsers and node.
 
@@ -37,41 +37,48 @@ AST for the source will be:
 
 ```json
 {
-	"type": "VariableDeclaration",
-	"declarations": [
+	"type": "Program",
+	"body": [
 		{
-			"type": "VariableDeclarator",
-			"id": {
-				"type": "Identifier",
-				"name": "a"
-			},
-			"init": {
-				"type": "Literal",
-				"value": 1,
-				"raw": "1"
-			}
+			"type": "VariableDeclaration",
+			"declarations": [
+				{
+					"type": "VariableDeclarator",
+					"id": {
+						"type": "Identifier",
+						"name": "a"
+					},
+					"init": {
+						"type": "Literal",
+						"value": 1,
+						"raw": "1"
+					}
+				}
+			],
+			"kind": "var"
 		}
-	],
-	"kind": "var"
+	]
 }
 ```
 
 And resulting HTML:
 
 ```html
-<VariableDeclaration type="VariableDeclaration" class="Declaration" declarations="VariableDeclarator" >
-	<VariableDeclarator type="VariableDeclarator" id="Identifier" init="Literal">
-		<Identifier type="Identifier" name="a"/>
-		<Literal type="Literal" value="1" raw="1"/>
-	</VariableDeclarator>
-</VariableDeclaration>
+<program class="Program Node Printable" type="Program" body="[]">
+	<variabledeclaration class="VariableDeclaration Declaration Statement Node Printable" type="VariableDeclaration" declarations="[]" kind="var" prop="body">
+		<variabledeclarator class="VariableDeclarator Node Printable" type="VariableDeclarator" id="Identifier" init="Literal" prop="declarations">
+			<identifier class="Identifier Expression Pattern Node Printable" type="Identifier" name="a" prop="id"></identifier>
+			<literal class="Literal Expression Pattern Node Printable" type="Literal" value="1" raw="1" prop="init"></literal>
+		</variabledeclarator>
+	</variabledeclaration>
+</program>
 ```
 
-So for the structure all esquery css selectors work just fine with some exceptions:
+So all esquery css selectors work just fine with that html, with some exceptions:
 
-* `:first-child` and `:last-child` selectors always return non-empty result, where esquery may return nothing. For example, `VariableDeclarator > Identifier:first-child` returns `<Identifier>`, where esquery returns `null`.
+* `:first-child` and `:last-child` selectors always return non-empty result, where esquery may return nothing. For example, selector `VariableDeclarator > Identifier:first-child` returns `<Identifier>`, where esquery returns `null`.
 * Nested attribute selector should be replaced with [subject indicator](): `[attr.subAttr=xyz]` → `![attr] > [subAttr=xyz]`
-* Class of selector `:statement` should be replaced with natural DOM class `.statement`.
+* Class of selector `:statement` should be replaced with natural DOM class `.Statement`.
 * Regular expression and conditional selectors should be replaced with according css selectors.
 
 In all other regards it works just the same.
@@ -79,7 +86,8 @@ In all other regards it works just the same.
 
 # Notes
 
-* esquery is significally flawed by inability to select all function params, or all function body statements. It would be natural to select things like `FunctionDeclaration > params > *` or `FunctionDeclaration > [prop=params]`
+* esquery is inabile to select list of nodes, like all function params, or all function body statements. With esdom you can do `FunctionDeclaration > [prop=params]`.
+* esdom might me somewhat slow in browsers due to using browser API. In node DOM is emulated via [dom-lite](https://www.npmjs.com/package/dom-lite), so it’s times faster.
 
 
 # API
