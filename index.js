@@ -51,6 +51,9 @@ function toDOM(ast){
 	var value;
 	for (var attr in ast) {
 		value = ast[attr];
+
+		if (ignoreAttr[attr]) continue;
+
 		//serialize object values specially
 		if (isObject(value)) {
 			//for arrays - append inner elements
@@ -176,7 +179,9 @@ function defineAttrGetter(el, attr) {
 //FIXME: remove this when builder params get available
 var ignoreAttr = {
 	class: true,
-	prop: true
+	prop: true,
+	loc: true,
+	original: true
 };
 
 
