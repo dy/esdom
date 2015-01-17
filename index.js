@@ -4,7 +4,7 @@
 
 var assert = require('assert');
 var types = require('ast-types');
-var isObject = require('is-object');
+var isPlainObject = require('is-plain-object');
 var isArray = require('is-array');
 var slice = require('sliced');
 var parseAttr = require('parse-attr').typeBased;
@@ -55,51 +55,48 @@ function toDOM(ast){
 
 		if (ignoreAttr[attr]) continue;
 
-		//serialize object values specially
-		if (isObject(value)) {
-			//for arrays - append inner elements
-			if (isArray(value)) {
-				value.forEach(function(item){
-					var subEl = toDOM(item);
-					subEl.setAttribute('prop', attr);
-					// defineAttrGetter(subEl, 'prop');
+		//for arrays - append inner elements
+		if (isArray(value)) {
+			value.forEach(function(item){
+				var subEl = toDOM(item);
+				subEl.setAttribute('prop', attr);
+				// defineAttrGetter(subEl, 'prop');
 
-					el.appendChild(subEl);
-				});
+				el.appendChild(subEl);
+			});
 
-				//preset selector attribute (fetch items from children)
-				el.setAttribute(attr, '[]');
+			//preset selector attribute (fetch items from children)
+			el.setAttribute(attr, '[]');
 
-				//add prop list getter
-				//FIXME: move to web-components
-				// Object.defineProperty(el, attr, {
-				// 	get: (function(selector){
-				// 		return function(){
-				// 			return this.parentNode.querySelectorAll(this.type + '>' + selector);
-				// 		};
-				// 	})('[prop=' + value.type + ']')
-				// });
-			}
-			//for objects - just create inner element and set attr reference to it
-			else {
-				var child = toDOM(value);
-				el.appendChild(child);
-				el.setAttribute(attr, value.type);
-				// defineAttrGetter(el, attr);
+			//add prop list getter
+			//FIXME: move to web-components
+			// Object.defineProperty(el, attr, {
+			// 	get: (function(selector){
+			// 		return function(){
+			// 			return this.parentNode.querySelectorAll(this.type + '>' + selector);
+			// 		};
+			// 	})('[prop=' + value.type + ']')
+			// });
+		}
+		//for objects - just create inner element and set attr reference to it
+		else if (isPlainObject(value)) {
+			var child = toDOM(value);
+			el.appendChild(child);
+			el.setAttribute(attr, value.type);
+			// defineAttrGetter(el, attr);
 
-				child.setAttribute('prop', attr);
+			child.setAttribute('prop', attr);
 
-				//add inner object getter by the prop
-				//FIXME: move to web-components
-				// Object.defineProperty(el, attr, {
-				// 	get: (function(selector){
-				// 		return function(){
-				// 			//FIXME: enhance this selector (may fail to work)
-				// 			return this.querySelector(selector);
-				// 		};
-				// 	})(value.type)
-				// });
-			}
+			//add inner object getter by the prop
+			//FIXME: move to web-components
+			// Object.defineProperty(el, attr, {
+			// 	get: (function(selector){
+			// 		return function(){
+			// 			//FIXME: enhance this selector (may fail to work)
+			// 			return this.querySelector(selector);
+			// 		};
+			// 	})(value.type)
+			// });
 		}
 		//otherwise simply stringify
 		else {
@@ -127,15 +124,19 @@ function toAST(el){
 
 	//take over attributes
 	var attributes = el.attributes, name, value, _name;
+
 	for (var i = 0; i < attributes.length; i++){
-		name = attributes[i].name;
+		name = camelNames[attributes[i].name] || attributes[i].name;
+
+		if (ignoreAttr[name]) continue;
+
 		//transform value from raw
 		if (name === 'value' && el.getAttribute('raw')) {
 			//FIXME: this might be an unsafe place
 			value = eval(el.getAttribute('raw'));
 		}
 		//don’t parse raws
-		else if (name === 'raw'){
+		else if (name === 'raw' || name === 'name'){
 			value = attributes[i].value;
 		}
 		//just parse
@@ -143,7 +144,6 @@ function toAST(el){
 			value = parseAttr(attributes[i].value);
 		}
 
-		if (ignoreAttr[name]) continue;
 
 		ast[name] = value;
 	}
@@ -183,6 +183,13 @@ var ignoreAttr = {
 	prop: true,
 	loc: true,
 	original: true
+};
+
+
+/** Dist of lc → cc prop names */
+//FIXME: collect all the camelcase names
+var camelNames = {
+	guardedhandlers: 'guardedHandlers'
 };
 
 
