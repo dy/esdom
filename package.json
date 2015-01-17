@@ -46,7 +46,8 @@
     "mocha": "^2.1.0",
     "require-stub": "^2.2.0",
     "esprima": "^1.2.2",
-    "escodegen": "^1.6.0"
+    "escodegen": "^1.6.0",
+    "require-file": "^1.0.1"
   },
   "browser": {
     "dom-lite": "./dom"

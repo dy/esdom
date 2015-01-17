@@ -19,6 +19,7 @@ var doc = require('dom-lite').document;
 //TODO: acquire on-component toAST method, returning AST subtree
 //TODO: acquire on-component toCode methods, returning source code
 //TODO: mark/analyze scopes
+//TODO: HTML is analyzable by escope
 
 
 /**

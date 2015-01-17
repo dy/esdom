@@ -86,8 +86,9 @@ In all other regards it works just the same.
 
 # Notes
 
-* esquery is inabile to select list of nodes, like all function params, or all function body statements. With esdom you can do `FunctionDeclaration > [prop=params]`.
-* esdom might me somewhat slow in browsers due to using browser API. In node, DOM is emulated via [dom-lite](https://www.npmjs.com/package/dom-lite), so it’s times faster.
+* esquery is inable to select list of nodes, like all function params, or all function body statements. With esdom you can do `FunctionDeclaration > [prop=params]`.
+* esdom might be somewhat slow in browsers due to using browser API. In node, DOM is emulated via [dom-lite](https://www.npmjs.com/package/dom-lite), so it’s times faster.
+*
 
 
 # API
