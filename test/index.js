@@ -9,6 +9,8 @@ var containerEl = doc.createElement('div');
 containerEl.id="ast";
 
 
+
+
 describe('cases', function(){
 	it.skip('TryStatement: guardedHandlers', function(){
 		//TODO
@@ -30,6 +32,7 @@ describe('libs', function(){
 		// console.log(ast);
 
 		var el = esdom.toDOM(ast);
+		console.log(el)
 
 		// console.log(el);
 

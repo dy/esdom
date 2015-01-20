@@ -12,14 +12,14 @@ var stringifyAttr = require('parse-attr').stringify;
 var doc = require('dom-lite').document;
 
 
-//TODO: tests, esp. for minified jquery
+//TODO: Ensure that HTML is analyzable by escope
 //TODO: add validation
 //TODO: use builders instead of manual creation
 //TODO: register proper web-components with getters on props
 //TODO: acquire on-component toAST method, returning AST subtree
 //TODO: acquire on-component toCode methods, returning source code
 //TODO: mark/analyze scopes
-//TODO: HTML is analyzable by escope
+
 
 
 /**
@@ -191,6 +191,67 @@ var ignoreAttr = {
 var camelNames = {
 	guardedhandlers: 'guardedHandlers'
 };
+
+
+
+function analyze(el){
+	var scopeCounter = 0;
+
+	analyzeScopes(el, scopeCounter);
+
+	analyzeVariables(el);
+}
+
+
+/**
+ * Scopes analyzer for the DOM structure - marks nodes with helpful attributes
+ */
+function analyzeScopes(el, scopeCounter, lastScope){
+	if (el.matches('.Function, .CatchClause, .Program')) {
+		el.setAttribute('data-scope', scopeCounter++);
+
+		//save parent scope
+		var parentScope = closest(el, '[data-scope]');
+		if (parentScope) {
+			el.setAttribute('data-scope-parent', parentScope.getAttribute('data-scope'));
+		};
+
+		//mark global
+		if (el.matches('Program')) el.setAttribute('data-scope-global', '');
+
+		lastScope = el;
+	}
+
+	//for each kid mark scope
+	q.all('> *', el).forEach(function(el){
+		analyzeScopes(el, scopeCounter, lastScope);
+	});
+}
+
+/**
+ * For each scope compose a list of references somehow touched by this scope
+ *
+ * @return {[type]} [description]
+ */
+function analyzeReferences(scope){
+	var scopeId = scope.getAttribute('data-scope');
+
+	q.all('Identifier').filter(function(el){
+		return closest(el, '[data-scope=' + scopeId + ']');
+	});
+}
+
+
+/**
+ * For each scope compose a list of scope-wide declared variables
+ */
+function analyzeVariables(scope){
+	var scopeId = scope.getAttribute('data-scope');
+
+	q.all('Identifier').filter(function(el){
+		return closest(el, '[data-scope=' + scopeId + ']');
+	});
+}
 
 
 module.exports = {
