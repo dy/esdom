@@ -40,14 +40,16 @@
     "sliced": "^0.0.5",
     "parse-attr": "^1.1.0",
     "dom-lite": "^0.2",
-    "is-plain-object": "^0.1.0"
+    "is-plain-object": "^0.1.0",
+    "query-relative": "~3.0.4"
   },
   "devDependencies": {
     "mocha": "^2.1.0",
     "require-stub": "^2.2.0",
     "esprima": "^1.2.2",
     "escodegen": "^1.6.0",
-    "require-file": "^1.0.1"
+    "require-file": "^1.0.1",
+    "chai": "~1.10.0"
   },
   "browser": {
     "dom-lite": "./dom"

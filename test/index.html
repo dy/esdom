@@ -6,20 +6,96 @@
 	*{
 		box-sizing: border-box;
 	}
-	#ast{
-		margin: 15px;
+
+</style>
+
+
+
+<style type="text/css">
+	*{
+		box-sizing: border-box;
 	}
-	#ast *{
+	.Node{
 		display: block;
-		border: 2px solid darkgray;
-		background: rgba(120,120,120,.1);
-		padding: 10px;
+		position: relative;
+		border: 2px solid rgba(0,0,0,.1);
+		background: rgba(0,0,0,.025);
+		padding: 25px 10px 10px;
+		margin-top: 5px;
 		margin-bottom: 5px;
 		font-size: 12px;
 		font-family: sans-serif;
 	}
-	#ast *:after{
+	.Node:after{
 		content: attr(type);
+		position: absolute;
+		top: 10px;
+		right: 10px;
+	}
+	.Node:before{
+		color: rgba(0,0,0,1);
+		position: absolute;
+		top: 10px;
+		left: 10px;
+		font-family: monospace;
+	}
+	.Identifier:before{
+		content: attr(name);
+	}
+	.Literal:before{
+		content: attr(raw);
+	}
+	.VariableDeclaration:before{
+		content: attr(kind);
+	}
+	.VariableDeclarator:before{
+		content: '<id> = <init>';
+	}
+	.FunctionDeclaration:before{
+		content: 'function <id> ( ≪params≫ ) { <body> }';
+	}
+	.CallExpression:before{
+		content: '<callee> (≪arguments≫)';
+	}
+	.FunctionExpression:before{
+		content: 'function <id>? (≪params≫) { <body> }';
+	}
+	.ObjectExpression:before{
+		content: '{ ≪properties≫ }';
+	}
+	.ObjectExpression:empty:before{
+		content: '{}';
+	}
+	.BlockStatement:before{
+		content: '{ ≪body≫ }'
+	}
+	.AssignmentExpression:before{
+		content: '<left> = <right>'
+	}
+	.MemberExpression[computed=true]:before{
+		content: '<object> [ <property> ]'
+	}
+	.MemberExpression[computed=false]:before{
+		content: '<object>.<property>'
+	}
+	.BinaryExpression:before{
+		content: attr(operator);
+	}
+	.ExpressionStatement:before{
+		content: '<expression>;';
+	}
+	.Property[kind="init"]:before{
+		content: '<key>: <value>';
+	}
+	[data-scope]{
+		border: 2px solid rgba(255,0,0,.3);
+	}
+	.collapsed > *{
+		display: none;
+	}
+	.collapsed {
+		border-bottom-style: double;
+		border-bottom-width: 5px;
 	}
 </style>
 
@@ -39,6 +115,23 @@
 
 
 <script>
-	mocha.checkLeaks();
+	// mocha.checkLeaks();
 	mocha.run();
+</script>
+
+
+<script>
+	//Simple collapsers
+	var e = require('enot');
+
+	e.on('document click:on(.Node)', function(e){
+		if (!e.target.childElementCount) return;
+
+		if (e.target.classList.contains('collapsed')) {
+			e.target.classList.remove('collapsed');
+		}
+		else {
+			e.target.classList.add('collapsed');
+		}
+	});
 </script>

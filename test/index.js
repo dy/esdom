@@ -1,12 +1,14 @@
-var assert = require('assert');
+var assert = require('chai').assert;
 var esprima = require('esprima');
 var escodegen = require('escodegen');
 var esdom = require('..');
-var doc = require('dom-lite').document;
+var doc = require('get-doc') || require('dom-lite').document;
 var rfile = require('require-file');
+var q = require('query-relative');
 
 var containerEl = doc.createElement('div');
 containerEl.id="ast";
+doc.body.appendChild(containerEl);
 
 
 
@@ -23,7 +25,7 @@ describe('cases', function(){
 });
 
 
-describe('libs', function(){
+describe('parse/serialize', function(){
 	it('self', function(){
 		var src = rfile('../index.js');
 
@@ -32,11 +34,11 @@ describe('libs', function(){
 		// console.log(ast);
 
 		var el = esdom.toDOM(ast);
-		console.log(el)
+		// console.log(el);
 
 		// console.log(el);
 
-		containerEl.appendChild(el);
+		// containerEl.appendChild(el);
 
 		var reast = esdom.toAST(el);
 		// console.log(reast)
@@ -49,12 +51,12 @@ describe('libs', function(){
 
 		var ast = esprima.parse(src);
 
-		console.log(ast);
+		// console.log(ast);
 
 		var el = esdom.toDOM(ast);
 		var reast = esdom.toAST(el);
 
-		console.log(reast);
+		// console.log(reast);
 
 		assert.deepEqual(ast, reast);
 
@@ -83,5 +85,29 @@ describe('libs', function(){
 
 	it.skip('es6 case', function(){
 
+	});
+});
+
+
+describe('analyze', function(){
+	it('analyze self', function(){
+		var src = rfile('./case/analysis.js');
+
+		var ast = esprima.parse(src);
+
+		// console.log(ast);
+
+		var el = esdom.toDOM(ast);
+		esdom.analyze(el);
+
+
+		containerEl.appendChild(el);
+
+		// console.log(q.all('[data-scope]', el));
+
+		var reast = esdom.toAST(el);
+		// console.log(reast)
+
+		assert.deepEqual(ast, reast);
 	});
 });
