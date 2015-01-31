@@ -49,6 +49,8 @@ describe('parse/serialize', function(){
 	it('lodash', function(){
 		var src = rfile('./case/lodash.min.js');
 
+		this.timeout(5000);
+
 		var ast = esprima.parse(src);
 
 		// console.log(ast);
@@ -56,10 +58,7 @@ describe('parse/serialize', function(){
 		var el = esdom.toDOM(ast);
 		var reast = esdom.toAST(el);
 
-		// console.log(reast);
-
 		assert.deepEqual(ast, reast);
-
 
 		//look up for statement
 		// for (var i = 0; i < 67; i++) {

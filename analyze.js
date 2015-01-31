@@ -145,9 +145,19 @@ function analyzeDeclarations(scope){
  * - continuestatement label
  */
 function analyzeReferences(el){
-	//go from lowest scopes up
-	q.all('[data-scope]:not(:has([data-scope]))', el)
-	.forEach(analyzeScopeRefs);
+	//ordered scopes, by depth
+	var scopes = [], children = [el];
+
+	//calc scopes depth, go from bottom to top
+	while (children.length) {
+		scopes = scopes.concat(children.filter(function(el){return el.matches('[data-scope]')}));
+		children = q.all('> *', children);
+	}
+
+	//go from lower scopes to upper, mark variables
+	scopes.reverse().forEach(function(scope){
+		analyzeScopeRefs(scope);
+	});
 
 
 	function analyzeScopeRefs(scope){
@@ -193,9 +203,6 @@ function analyzeReferences(el){
 			}
 		});
 	}
-
-
-	//go up
 }
 
 

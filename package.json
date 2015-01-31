@@ -42,7 +42,8 @@
     "dom-lite": "^0.2",
     "is-plain-object": "^0.1.0",
     "query-relative": "^3.0.4",
-    "array-find": "^0.1.1"
+    "array-find": "^0.1.1",
+    "queried": "^1.3.0"
   },
   "devDependencies": {
     "mocha": "^2.1.0",

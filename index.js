@@ -14,11 +14,12 @@ var doc = require('get-doc') || require('dom-lite').document;
 
 //TODO: add validation
 //TODO: use builders instead of manual creation
+//TODO: make block statement a scope, not the function (possibly related to cycle scopes)
 //TODO: register proper web-components with getters on props
 //TODO: acquire on-component toAST method, returning AST subtree
 //TODO: acquire on-component toCode methods, returning source code
 //TODO: mark/analyze scopes
-//TODO: online demo
+//TODO: online demo: source, visualize, analyze btn
 
 
 
