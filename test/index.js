@@ -1,3 +1,4 @@
+
 var assert = require('chai').assert;
 var esprima = require('esprima');
 var escodegen = require('escodegen');
@@ -5,6 +6,10 @@ var esdom = require('..');
 var doc = require('get-doc') || require('dom-lite').document;
 var rfile = require('require-file');
 var q = require('query-relative');
+
+
+q.document = doc;
+
 
 var containerEl = doc.createElement('div');
 containerEl.id="ast";
@@ -89,7 +94,7 @@ describe('parse/serialize', function(){
 
 
 describe('analyze', function(){
-	it('analyze self', function(){
+	it.only('analyze self', function(){
 		var src = rfile('./case/analysis.js');
 
 		var ast = esprima.parse(src);

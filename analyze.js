@@ -4,7 +4,8 @@
 
 
 var q = require('query-relative');
-var closest = require('query-relative/closest');
+var closest = q.closest;
+var matches = require('queried/lib/pseudos/matches');
 var find = require('array-find');
 
 
@@ -33,7 +34,7 @@ function analyze(el){
  * `data-scope-variables=<count>` - number of variables in scope
  */
 function analyzeScopes(el, opts){
-	if (el.matches('.Function, .CatchClause, .Program')) {
+	if (matches(el, '.Function, .CatchClause, .Program')) {
 		el.setAttribute('data-scope', opts.scopeCounter++);
 
 		//save parent scope
@@ -43,7 +44,7 @@ function analyzeScopes(el, opts){
 		}
 
 		//mark global
-		if (el.matches('Program')) el.setAttribute('data-scope-global', '');
+		if (matches(el, 'Program')) el.setAttribute('data-scope-global', '');
 
 		opts.lastScope = el;
 	}
@@ -95,13 +96,13 @@ function analyzeDeclarations(scope){
 
 		ids.forEach(function(id){
 			//if identifier is a variable declarator - mark it
-			if (id.parentNode.matches('.VariableDeclarator')) {
+			if (matches(id.parentNode, '.VariableDeclarator')) {
 				markDeclaration(id, scope);
 			}
 
 			//if identifier is a function declaration (hoisting) - mark it as belonging to parent scope
-			if (id.parentNode.matches('.FunctionDeclaration')){
-				if (id.matches(':first-child')) {
+			if (matches(id.parentNode, '.FunctionDeclaration')){
+				if (matches(id, ':first-child')) {
 					markDeclaration(id, closest(scope, '[data-scope]'));
 				}
 				else {
@@ -119,7 +120,7 @@ function analyzeDeclarations(scope){
 	 */
 	function markDeclaration(node, scope){
 		var scopeId = scope.getAttribute('data-scope');
-		var scopeVarCounter = +scope.getAttribute('data-scope-variables') || scope.matches('.Function') ? 1 : 0;
+		var scopeVarCounter = +scope.getAttribute('data-scope-variables') || matches(scope, '.Function') ? 1 : 0;
 
 		node.setAttribute('data-variable', scopeId + '' + (scopeVarCounter++));
 		node.setAttribute('data-variable-scope', scopeId);
@@ -150,7 +151,7 @@ function analyzeReferences(el){
 
 	//calc scopes depth, go from bottom to top
 	while (children.length) {
-		scopes = scopes.concat(children.filter(function(el){return el.matches('[data-scope]')}));
+		scopes = scopes.concat(children.filter(function(el){return matches(el, '[data-scope]')}));
 		children = q.all('> *', children);
 	}
 
@@ -170,10 +171,10 @@ function analyzeReferences(el){
 		//get all nested identifiers
 		var ids = q.all('.Identifier', scope).filter(function(id){
 			//ignore plain properties refs
-			if (id.matches('[prop="property"]') && id.parentNode.getAttribute('computed') === 'false') return false;
+			if (matches(id, '[prop="property"]') && id.parentNode.getAttribute('computed') === 'false') return false;
 
 			//ignore object keys definitions
-			if (id.matches('[prop="key"]')) return false;
+			if (matches(id, '[prop="key"]')) return false;
 
 			//ignore already marked variables
 			if (id.hasAttribute('data-variable')) return false;
@@ -197,7 +198,7 @@ function analyzeReferences(el){
 			}
 
 			//if name is arguments and scope is fn - it belongs to the scope
-			else if (idName === 'arguments' && scope.matches('.Function')){
+			else if (idName === 'arguments' && matches(scope, '.Function')){
 				id.setAttribute('data-variable', scopeId + '' + 0);
 				id.setAttribute('data-variable-scope', scopeId);
 			}

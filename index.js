@@ -130,7 +130,7 @@ function toAST(el){
 		name = camelNames[attributes[i].name] || attributes[i].name;
 
 		if (ignoreAttr[name]) continue;
-		if (/^data-/.test(name)) continue;
+		if (/^data-|^_/.test(name)) continue;
 
 		//transform value from raw
 		if (name === 'value' && el.getAttribute('raw')) {
