@@ -41,7 +41,8 @@
     "parse-attr": "^1.1.0",
     "dom-lite": "^0.2",
     "is-plain-object": "^0.1.0",
-    "query-relative": "~3.0.4"
+    "query-relative": "^3.0.4",
+    "array-find": "^0.1.1"
   },
   "devDependencies": {
     "mocha": "^2.1.0",
@@ -49,9 +50,7 @@
     "esprima": "^1.2.2",
     "escodegen": "^1.6.0",
     "require-file": "^1.0.1",
-    "chai": "~1.10.0"
-  },
-  "browser": {
-    "dom-lite": "./dom"
+    "chai": "~1.10.0",
+    "emmy": "^5.1.3"
   }
 }

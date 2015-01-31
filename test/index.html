@@ -18,22 +18,26 @@
 	.Node{
 		display: block;
 		position: relative;
-		border: 2px solid rgba(0,0,0,.1);
-		background: rgba(0,0,0,.025);
+		/*background: rgba(0,0,0,.025);*/
+		border: 1px solid rgba(99, 99, 121, 0.25);
 		padding: 25px 10px 10px;
 		margin-top: 5px;
 		margin-bottom: 5px;
 		font-size: 12px;
 		font-family: sans-serif;
 	}
+	.Node:empty{
+		border: 1px solid transparent;
+	}
 	.Node:after{
 		content: attr(type);
 		position: absolute;
+		color: rgba(99, 99, 121, 0.5);
 		top: 10px;
 		right: 10px;
+		font-style: normal;
 	}
 	.Node:before{
-		color: rgba(0,0,0,1);
 		position: absolute;
 		top: 10px;
 		left: 10px;
@@ -52,13 +56,13 @@
 		content: '<id> = <init>';
 	}
 	.FunctionDeclaration:before{
-		content: 'function <id> ( ≪params≫ ) { <body> }';
+		content: 'function <id> ( ≪params≫ ) <body>';
 	}
 	.CallExpression:before{
 		content: '<callee> (≪arguments≫)';
 	}
 	.FunctionExpression:before{
-		content: 'function <id>? (≪params≫) { <body> }';
+		content: 'function <id>? (≪params≫) <body>';
 	}
 	.ObjectExpression:before{
 		content: '{ ≪properties≫ }';
@@ -88,14 +92,27 @@
 		content: '<key>: <value>';
 	}
 	[data-scope]{
-		border: 2px solid rgba(255,0,0,.3);
+		border-color: rgba(0,120,220,.3);
+		box-shadow: 0 0 0 1px rgba(0,120,220,.3);
+	}
+	.active-scope[data-scope]{
+		border-color: rgba(220,160,0,.5);
+		box-shadow: 0 0 0 1px rgba(220,160,0,.5);
+	}
+	.highlight{
+		color: rgba(220,160,0,1);
+		font-style: italic;
+	}
+	.highlight[data-variable-declaration]:before{
+		font-weight: bold;
+		font-style: normal;
 	}
 	.collapsed > *{
 		display: none;
 	}
 	.collapsed {
 		border-bottom-style: double;
-		border-bottom-width: 5px;
+		border-bottom-width: 4px;
 	}
 </style>
 
@@ -121,10 +138,15 @@
 
 
 <script>
-	//Simple collapsers
+	var delegate = require('emmy/delegate');
+	var on = require('emmy/on');
 	var e = require('enot');
+	var doc = require('get-doc');
+	var q = require('query-relative');
+	var closest = q.closest;
 
-	e.on('document click:on(.Node)', function(e){
+	//Collapse non-empty nodes
+	delegate(doc, 'click', '.Node', function(e){
 		if (!e.target.childElementCount) return;
 
 		if (e.target.classList.contains('collapsed')) {
@@ -133,5 +155,25 @@
 		else {
 			e.target.classList.add('collapsed');
 		}
+	});
+
+
+	//Highlight scope variables;
+	delegate(doc, 'mouseover', '[data-scope]', function(e){
+		e.stopPropagation();
+		var scope = closest(e.target, '[data-scope]');
+		if (!scope) return;
+
+		//fade each highlighted id
+		q.all('.active-scope').forEach(function(el){el.classList.remove('active-scope')});
+		q.all('.highlight').forEach(function(el){el.classList.remove('highlight')});
+
+		scope.classList.add('active-scope');
+		var scopeId = scope.getAttribute('data-scope');
+
+		//paint each identifier
+		q.all('[data-variable-scope="' + scopeId + '"]').forEach(function(el){
+			el.classList.add('highlight');
+		});
 	});
 </script>

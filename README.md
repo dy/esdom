@@ -77,18 +77,34 @@ And resulting HTML:
 So all esquery css selectors work just fine with that html, with some exceptions:
 
 * `:first-child` and `:last-child` selectors always return non-empty result, where esquery may return nothing. For example, selector `VariableDeclarator > Identifier:first-child` returns `<Identifier>`, where esquery returns `null`.
-* Nested attribute selector should be replaced with [subject indicator](): `[attr.subAttr=xyz]` → `![attr] > [subAttr=xyz]`
+* Nested attribute selector should be replaced with subject indicator (or :has): `[attr.subAttr=xyz]` → `![attr] > [subAttr=xyz]`
 * Class of selector `:statement` should be replaced with natural DOM class `.Statement`.
 * Regular expression and conditional selectors should be replaced with according css selectors.
+
 
 In all other regards it works just the same.
 
 
 # Notes
 
-* esquery is inable to select list of nodes, like all function params, or all function body statements. With esdom you can do `FunctionDeclaration > [prop=params]`.
+* esquery is inable to select list of nodes, like all function params, or all function body statements. With esdom you can do `.Function > [prop="params"]`.
 * esdom might be somewhat slow in browsers due to using browser API. In node, DOM is emulated via [dom-lite](https://www.npmjs.com/package/dom-lite), so it’s times faster.
-*
+* esdom work only with ES5.
+
+
+# Analysis
+
+ESDOM also provides helpful scope/variable analysis, marking nodes with additional `data-` attributes. To analyze DOM, call `esdom.analyze(dom)`, and it will set attributes:
+
+| Attribute | Description |
+|---|---|
+| `data-scope=<id>` | Scope indicator |
+| `data-scope-global` | Global scope flag |
+| `data-scope-parent=<scope-id>` | Parent scope id |
+| `data-variable=<id>` | Variable indicator with unique id |
+| `data-variable-declaration` | Variable declaration flag |
+| `data-variable-scope=<scope-id>` | Variable holding scope |
+
 
 
 # API
@@ -97,6 +113,6 @@ In all other regards it works just the same.
 |---|---|
 | `.toDOM(ast)` | Convert AST to DOM element. |
 | `.toAST(element)` | Build AST from DOM element. |
-
+| `.analyze(element)` | Mark up AST nodes |
 
 [![NPM](https://nodei.co/npm/esdom.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/esdom/)
