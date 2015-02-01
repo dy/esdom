@@ -9,9 +9,11 @@ var matches = require('queried/lib/pseudos/matches');
 var find = require('array-find');
 
 
+//TODO: recognize implicit global declarations, like window.$ within anonymous fn or $={}.
+
+
 /**
  * Add attributes to nodes helpful to analyze stuff
- *
  */
 function analyze(el){
 	var scopeCounter = 0;
