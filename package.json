@@ -1,0 +1,28 @@
+{
+  "name": "esdom-demo",
+  "version": "0.0.0",
+  "description": "Demo page for esdom",
+  "main": "index.js",
+  "scripts": {
+    "build": "browserify index.js > bundle.js",
+    "min": "ccjs bundle.js --language_in=ECMASCRIPT5 > bundle.min.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/dfcreative/esdom.git"
+  },
+  "author": "Deema Ywanov",
+  "license": "Unlicensed",
+  "bugs": {
+    "url": "https://github.com/dfcreative/esdom/issues"
+  },
+  "homepage": "https://github.com/dfcreative/esdom",
+  "dependencies": {
+    "esprima": "~1.2.3",
+    "esdom": "~1.2.1",
+    "emmy": "~5.1.4",
+    "queried": "~1.4.1",
+    "get-doc": "~1.0.3"
+  }
+}

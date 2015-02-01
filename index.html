@@ -1,0 +1,58 @@
+<!doctype html>
+
+<!-- todo: replace these styles with include -->
+<link rel="stylesheet" type="text/css" href="./index.css">
+
+<style>
+	body{
+		margin: 1rem;
+	}
+	.code{
+		min-height: 20vh;
+		width: 100%;
+		margin: 0;
+		line-height: 1.5;
+		font-size: 1rem;
+		display: block;
+	}
+	.ast{
+		margin-top: 1rem;
+		box-shadow: inset 0 1px 1px 1px rgba(100,100,100,.1);
+		min-height: calc(80vh - 5.5rem);
+	}
+	.ast > *:first-child{
+		margin-top: 0;
+	}
+	.selector{
+		position: fixed;
+		line-height: 1.5;
+		font-size: 1rem;
+		font-family: monospace;
+		width: 60vw;
+		right: 0;
+		left: 0;
+		bottom: 1rem;
+		border: 0;
+		padding: 2px 4px;
+		box-shadow: 0 2px 20px -2px rgb(93, 93, 137);
+		opacity: .5;
+		margin: 0 auto;
+	}
+	.selector:focus{
+		opacity: 1;
+	}
+</style>
+
+
+<textarea class="code" placeholder="Source code...">
+</textarea>
+
+
+<div class="ast">
+</div>
+
+
+<input class="selector" placeholder="Selector..."/>
+
+
+<script src="./bundle.min.js"></script>

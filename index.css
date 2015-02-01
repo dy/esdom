@@ -1,0 +1,102 @@
+*{
+	box-sizing: border-box;
+}
+.Node{
+	display: block;
+	position: relative;
+	/*background: rgba(0,0,0,.025);*/
+	border: 1px solid rgba(99, 99, 121, 0.25);
+	padding: 25px 10px 10px;
+	margin-top: 5px;
+	margin-bottom: 5px;
+	font-size: 12px;
+	font-family: sans-serif;
+}
+.Node:empty{
+	border: 1px solid transparent;
+}
+.Node:after{
+	content: attr(type);
+	position: absolute;
+	color: rgba(99, 99, 121, 0.5);
+	top: 10px;
+	right: 10px;
+	font-style: normal;
+}
+.Node:before{
+	position: absolute;
+	top: 10px;
+	left: 10px;
+	font-family: monospace;
+}
+.Identifier:before{
+	content: attr(name);
+}
+.Literal:before{
+	content: attr(raw);
+}
+.VariableDeclaration:before{
+	content: attr(kind);
+}
+.VariableDeclarator:before{
+	content: '<id> = <init>';
+}
+.FunctionDeclaration:before{
+	content: 'function <id> ( ≪params≫ ) <body>';
+}
+.CallExpression:before{
+	content: '<callee> (≪arguments≫)';
+}
+.FunctionExpression:before{
+	content: 'function <id>? (≪params≫) <body>';
+}
+.ObjectExpression:before{
+	content: '{ ≪properties≫ }';
+}
+.ObjectExpression:empty:before{
+	content: '{}';
+}
+.BlockStatement:before{
+	content: '{ ≪body≫ }'
+}
+.AssignmentExpression:before{
+	content: '<left> = <right>'
+}
+.MemberExpression[computed=true]:before{
+	content: '<object> [ <property> ]'
+}
+.MemberExpression[computed=false]:before{
+	content: '<object>.<property>'
+}
+.BinaryExpression:before{
+	content: attr(operator);
+}
+.ExpressionStatement:before{
+	content: '<expression>;';
+}
+.Property[kind="init"]:before{
+	content: '<key>: <value>';
+}
+[data-scope]{
+	border-color: rgba(0,0,0,.2);
+	box-shadow: 0 0 0 1px rgba(0,0,0,.2);
+}
+.active-scope[data-scope]{
+	border-color: rgba(220,160,0,.5);
+	box-shadow: 0 0 0 1px rgba(220,160,0,.5);
+}
+.highlight{
+	color: rgba(220,160,0,1);
+	font-style: italic;
+}
+.highlight[data-variable-declaration]:before{
+	font-weight: bold;
+	font-style: normal;
+}
+.collapsed > *{
+	display: none;
+}
+.collapsed {
+	border-bottom-style: double;
+	border-bottom-width: 4px;
+}
