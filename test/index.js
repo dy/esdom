@@ -5,11 +5,10 @@ var escodegen = require('escodegen');
 var esdom = require('..');
 var doc = require('get-doc') || require('dom-lite').document;
 var rfile = require('require-file');
-var q = require('query-relative');
+var q = require('queried');
 
 
 q.document = doc;
-
 
 var containerEl = doc.createElement('div');
 containerEl.id="ast";
@@ -94,7 +93,7 @@ describe('parse/serialize', function(){
 
 
 describe('analyze', function(){
-	it('analyze self', function(){
+	it.only('analyze self', function(){
 		var src = rfile('./case/analysis.js');
 
 		var ast = esprima.parse(src);
