@@ -39,7 +39,7 @@
     "is-array": "^1.0.1",
     "sliced": "^0.0.5",
     "parse-attr": "^1.1.0",
-    "dom-lite": "^0.2",
+    "dom-lite": "^0.3.8",
     "is-plain-object": "^0.1.0",
     "query-relative": "^3.0.4",
     "array-find": "^0.1.1",
@@ -47,11 +47,11 @@
   },
   "devDependencies": {
     "mocha": "^2.1.0",
-    "require-stub": "^2.2.0",
+    "require-stub": "^2.2.4",
     "esprima": "^1.2.2",
     "escodegen": "^1.6.0",
-    "require-file": "^1.0.1",
-    "chai": "~1.10.0",
+    "require-file": "^1.0.2",
+    "chai": "^1.10.0",
     "emmy": "^5.1.3"
   }
 }
