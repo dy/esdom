@@ -2,7 +2,8 @@
 
 #### [DEMO](http://dfcreative.github.io/esdom/)
 
-Build up DOM from AST or AST from DOM. Just because it’s far simpler to use DOM to manipulate and traverse nodes, as you used to, instead of tricky AST, even with tools like [esquery](https://github.com/estools/esquery) or [ast-types](https://github.com/benjamin/ast-types). Besides, there are jQuery and a bunch of other DOM-tools. Anyways, esdom is forward-compatible with esquery, so everything is done via esdom can be painlessly refactored to use esquery.
+Build up DOM from AST or AST from DOM. Just because DOM is something more familiar to web-developers than AST, though there are tools like [esquery](https://github.com/estools/esquery) or [ast-types](https://github.com/benjamin/ast-types).
+ESDOM is forward-compatible with esquery, so everything is done via esdom can be painlessly refactored to use esquery.
 
 Works both in browsers and node.
 
@@ -80,7 +81,7 @@ So all esquery css selectors work just fine with that html, with some exceptions
 
 * `:first-child` and `:last-child` selectors always return non-empty result, where esquery may return nothing. For example, selector `VariableDeclarator > Identifier:first-child` returns `<Identifier>`, where esquery returns `null`.
 * Nested attribute selector should be replaced with subject indicator (or :has): `[attr.subAttr=xyz]` → `![attr] > [subAttr=xyz]`
-* Class of selector `:statement` should be replaced with natural DOM class `.Statement`.
+* To select custom esquery pseudos like `:statement`, it is recommended to use [`esdom/query`](query.js), otherwise it should be replaced with natural DOM class `.Statement`.
 * Regular expression and conditional selectors should be replaced with according css selectors.
 
 

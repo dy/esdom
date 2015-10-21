@@ -51,7 +51,7 @@ describe('parse/serialize', function(){
 	});
 
 	it('lodash', function(){
-		var src = rfile('./case/lodash.min.js');
+		var src = rfile('./fixture/lodash.min.js');
 
 		this.timeout(10000);
 
@@ -92,8 +92,8 @@ describe('parse/serialize', function(){
 });
 
 
-describe('analyze', function(){
-	it.only('analyze self', function(){
+describe.skip('analyze', function(){
+	it('analyze self', function(){
 		var src = rfile('./case/analysis.js');
 
 		var ast = esprima.parse(src);

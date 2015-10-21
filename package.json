@@ -41,7 +41,6 @@
     "parse-attr": "^1.1.0",
     "dom-lite": "^0.3.8",
     "is-plain-object": "^0.1.0",
-    "query-relative": "^3.0.4",
     "array-find": "^0.1.1",
     "get-doc": "^1.0.3",
     "queried": "~1.4.1"
