@@ -3,8 +3,8 @@
  */
 
 
-var q = require('query-relative');
-var closest = q.closest;
+var q = require('queried');
+var closest = require('queried/closest');
 var matches = require('queried/lib/pseudos/matches');
 var find = require('array-find');
 
