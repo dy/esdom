@@ -43,7 +43,7 @@
     "is-plain-object": "^0.1.0",
     "array-find": "^0.1.1",
     "get-doc": "^1.0.3",
-    "queried": "~1.4.1"
+    "queried": "^1.4.1"
   },
   "devDependencies": {
     "mocha": "^2.1.0",
