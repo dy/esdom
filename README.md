@@ -2,7 +2,7 @@
 
 #### [DEMO](http://dfcreative.github.io/esdom/)
 
-Build up DOM from AST or AST from DOM. Just because DOM is something more familiar to web-developers than AST, though there are tools like [esquery](https://github.com/estools/esquery) or [ast-types](https://github.com/benjamin/ast-types).
+Build up DOM from AST or AST from DOM. Just because DOM is something more familiar to web-developers than AST, though there are tools like [esquery](https://github.com/estools/esquery) or [ast-types](https://github.com/benjamn/ast-types).
 ESDOM is forward-compatible with esquery, so everything is done via esdom can be painlessly refactored to use esquery.
 
 Works both in browsers and node.
